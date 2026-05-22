@@ -1,49 +1,49 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const os = require("os");
 
 const connectDB = require("./config/db");
+
 const todoRoutes = require("./routes/todoRoutes");
 const authRoutes = require("./routes/authRoutes");
 
+// LOAD ENV VARIABLES
 dotenv.config();
 
+// CONNECT DATABASE
 connectDB();
 
 const app = express();
 
+// MIDDLEWARE
 app.use(cors({
-  origin:
-    "https://todo-app-3-eoyg.onrender.com",
+  origin: [
+    "http://localhost:5173",
+    "https://todo-app-3-eoyg.onrender.com"
+  ],
   credentials: true
 }));
+
 app.use(express.json());
 
+// ROUTES
 app.use("/api/auth", authRoutes);
+
 app.use("/api/todos", todoRoutes);
 
+// TEST ROUTE
 app.get("/", (req, res) => {
   res.send("Todo API Running 🚀");
 });
 
+// PORT
 const PORT = process.env.PORT || 5000;
-const HOST = "0.0.0.0";
 
-function getLocalIP() {
-  for (const interfaces of Object.values(os.networkInterfaces())) {
-    for (const iface of interfaces) {
-      if (iface.family === "IPv4" && !iface.internal) {
-        return iface.address;
-      }
-    }
-  }
-  return "localhost";
-}
+// START SERVER
+app.listen(PORT, () => {
 
-app.listen(PORT, HOST, () => {
-  const lanIP = getLocalIP();
-  console.log(`Server running on port ${PORT}`);
-  console.log(`  Local:   http://localhost:${PORT}`);
-  console.log(`  Network: http://${lanIP}:${PORT}  (share this IP with others on your Wi-Fi)`);
+  console.log(
+    `Server running on port ${PORT}`
+  );
+
 });
