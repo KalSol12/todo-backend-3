@@ -13,7 +13,11 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin:
+    "https://todo-app-3-eoyg.onrender.com",
+  credentials: true
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
