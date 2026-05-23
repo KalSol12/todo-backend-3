@@ -19,7 +19,8 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://todo-app-3-eoyg.onrender.com"
+    "https://todo-app-3-eoyg.onrender.com",
+    "https://newfull-stack-todo.vercel.app"
   ],
   credentials: true
 }));
